@@ -1,0 +1,6 @@
+
+
+# Ignore some files
+.git
+PySweave.egg-info
+*/*.pyc

@@ -1,0 +1,78 @@
+% -------------------------------------------------------------------
+[latex header]
+\documentclass[a4paper,10pt,headspline]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+
+\begin{document}
+[/latex header]
+
+[beamer header]
+%% Begin slides template file
+\documentclass[11pt,t,usepdftitle=false,aspectratio=169]{beamer}
+\usetheme[nototalframenumber,foot,logo]{retostauffer}
+
+\title[]{This is the tex source}
+\subtitle{The {\LaTeX} Beamer Implementation}
+
+\author[]{}
+\URL{Reto.Stauffer@uibk.ac.at}
+
+\footertext{{\LaTeX} beamer theme}
+\date{2017-07-25}
+\headerimage{1}
+
+\begin{document}
+[/beamer header]
+% -------------------------------------------------------------------
+
+\section{This is section one}
+
+\begin{frame}[fragile]
+\frametitle{This is a title}
+
+\begin{doc}
+This is text which should only be visible in the
+documentation. Should be removed in the beamer output.
+
+Das hier ist das Dokument in dem ich jetzt hoffentlich
+hier ist kein Sweave stuff erlaubt.
+
+Ausserdem sollten Sonderzeichen gehen, so dass ich äüö 
+und so einen Mist schreiben kann.
+\end{doc}
+
+\begin{slides}
+This is beamer!
+\end{slides}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Das ist frame zwei}
+
+\begin{doc}
+Im Dokument sollte man nun nicht erkennen, dass hier
+ein neuer Frame angefangen hat.
+\end{doc}
+
+\begin{slides}
+Aber hier sind wir auf Frame zwei in den Slides.
+\end{slides}
+
+\end{frame}
+
+
+
+% -------------------------------------------------------------------
+[latex footer]
+\end{document}
+[/latex footer]
+
+[beamer footer]
+\end{document}
+[/beamer footer]
+% -------------------------------------------------------------------
+

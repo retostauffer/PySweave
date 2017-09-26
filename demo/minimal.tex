@@ -1,0 +1,21 @@
+[latex header]
+\documentclass[a4paper,10pt,headspline]{article}
+\begin{document}
+[/latex header]
+
+[beamer header]
+\documentclass[11pt,t,usepdftitle=false,aspectratio=169]{beamer}
+\begin{document}
+[/beamer header]
+
+\section{This is section one}
+
+\begin{frame}[fragile]
+\frametitle{Demo}
+   \begin{doc}
+   This only appears in the documentation.
+   \end{doc}
+   \begin{slides}
+   This only appears in the praesentation.
+   \end{slides}
+\end{frame}

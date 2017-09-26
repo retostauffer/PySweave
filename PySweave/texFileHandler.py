@@ -7,7 +7,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2017-09-25, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2017-09-26 16:04 on thinkreto
+# - L@ST MODIFIED: 2017-09-26 16:26 on thinkreto
 # -------------------------------------------------------------------
 
 
@@ -62,14 +62,28 @@ class texFileHandler( object ):
 
       import sys, re
       res = {}
+
+      # Reading headers. Required, stop if problems occur.
       try:
          res["latex header"]  = re.findall("\[latex\sheader\](.*?)\[/latex\sheader\]",content,re.S)[0]
-         res["latex footer"]  = re.findall("\[latex\sfooter\](.*?)\[/latex\sfooter\]",content,re.S)[0]
-         res["beamer header"] = re.findall("\[beamer\sheader\](.*?)\[/beamer\sheader\]",content,re.S)[0]
-         res["beamer footer"] = re.findall("\[beamer\sfooter\](.*?)\[/beamer\sfooter\]",content,re.S)[0]
       except Exception as e:
          log.error(e)
-         log.error("Problems reading latex/beamer header and footer configuration"); sys.exit(9)
+         log.error("Problems reading \"[latex header]\" configuration. Required. Stop."); sys.exit(9)
+      try:
+         res["beamer header"] = re.findall("\[beamer\sheader\](.*?)\[/beamer\sheader\]",content,re.S)[0]
+      except Exception as e:
+         log.error(e)
+         log.error("Problems reading \"[beamer header]\" configuration. Required. Stop."); sys.exit(9)
+      # The footer is not required. If we cannot find the footer
+      # we will simply use \end{document} as default.
+      try:
+         res["latex footer"]  = re.findall("\[latex\sfooter\](.*?)\[/latex\sfooter\]",content,re.S)[0]
+      except:
+         res["latex footer"]  = "\n\\end{document}\n"
+      try:
+         res["beamer footer"] = re.findall("\[beamer\sfooter\](.*?)\[/beamer\sfooter\]",content,re.S)[0]
+      except:
+         res["beamer footer"]  = "\n\\end{document}\n"
 
       # Replace header/footer tags
       remove = ["latex header","latex footer","beamer header","beamer footer"]

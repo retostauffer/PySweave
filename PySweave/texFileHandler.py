@@ -7,7 +7,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2017-09-25, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2017-09-26 16:26 on thinkreto
+# - L@ST MODIFIED: 2017-09-26 16:56 on thinkreto
 # -------------------------------------------------------------------
 
 
@@ -197,6 +197,7 @@ class texFileHandler( object ):
          try:
             p = sub.Popen(cmd,stdout=sub.PIPE,stderr=sub.PIPE) 
             out,err = p.communicate()
+            log.info("Subprocess return value: {:d}".format(p.returncode))
          except Exception as e:
             log.error(e)
             log.error("Problem during execution of Sweave/pdflatex/bibtex.")
@@ -214,11 +215,14 @@ class texFileHandler( object ):
             texfile = file.replace(self.postfix,".tex")
             auxfile = file.replace(self.postfix,".aux")
             
-            cmd = ["R","CMD","Sweave",file,"&&",
-                   "pdflatex", texfile, "&&",
+            cmd = ["pdflatex", texfile, "&&",
                    "pdflatex", texfile, "&&",
                    "bibtex",   auxfile, "&&",
                    "pdflatex", texfile]
+            log.info("Sweaving now ...")
+            renderExec( ["R", "CMD", "Sweave", file] )
+            log.info("Executing ...")
+            log.info(" ".join(cmd))
             renderExec( cmd )
             renderExec( ["pdflatex", texfile] )
 

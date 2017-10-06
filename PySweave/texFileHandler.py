@@ -7,7 +7,7 @@
 # -------------------------------------------------------------------
 # - EDITORIAL:   2017-09-25, RS: Created file on thinkreto.
 # -------------------------------------------------------------------
-# - L@ST MODIFIED: 2017-09-26 16:56 on thinkreto
+# - L@ST MODIFIED: 2017-10-06 09:48 on thinkreto
 # -------------------------------------------------------------------
 
 
@@ -130,11 +130,9 @@ class texFileHandler( object ):
       REGEX = r"(\\begin{slides}.*?\\end{slides})"
       mtch = re.findall( REGEX, tmp, flags=re.DOTALL )
       for m in mtch: tmp = tmp.replace(m,"")
-      #tmp = re.sub(r"\s+?\\begin{slides}.*\s+?(?<=\\end{slides})","",tmp,flags=re.S) 
-      #tmp = re.sub(r"\s+?\\begin{slides}.*\s+?\\end{slides}(?=\\end{slides})","",tmp,flags=re.S) 
       tmp = re.sub(r"\s+?\\begin{frame}\[.*\]","",tmp)
       tmp = re.sub(r"\s+?\\frametitle\{.*\}","",tmp)
-      tmp = re.sub(r"\s+?\\end\{frame\}","",tmp)
+      tmp = re.sub(r"\s+?\\end\{frame\}","\n",tmp)
       # Delete the doc tags
       tmp = re.sub(r"\s+?\\begin\{doc\}","",tmp)
       tmp = re.sub(r"\s+?\\end\{doc\}","",tmp)
@@ -195,15 +193,16 @@ class texFileHandler( object ):
       def renderExec( cmd ):
          # Execute the command/render tex/Rnw stuff
          try:
-            p = sub.Popen(cmd,stdout=sub.PIPE,stderr=sub.PIPE) 
-            out,err = p.communicate()
-            log.info("Subprocess return value: {:d}".format(p.returncode))
+            #p = sub.Popen(cmd,stdout=sub.PIPE,stderr=sub.PIPE) 
+            #out,err = p.communicate()
+            #log.info("Subprocess return value: {:d}".format(p.returncode))
+            p = sub.call(cmd)
          except Exception as e:
             log.error(e)
             log.error("Problem during execution of Sweave/pdflatex/bibtex.")
 
          # Show error from subprocess if some is logged
-         if err: print err
+         #if err: print err
 
       # If we have to sweave .............
       if self.postfix.lower() == ".rnw":
